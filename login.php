@@ -1,0 +1,240 @@
+<?php
+require 'conn.php';
+
+
+$conrirm = "";
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm'])){
+
+    $_userName = $_POST["userName"];
+    $_password = $_POST["password"];
+    
+    $sql = "SELECT * FROM librarian where lib_name= '$_userName' AND lib_password='$_password'";
+    $result = mysqli_query($conn, $sql);
+    $num = mysqli_num_rows($result);
+  
+
+    
+    if($num == 1){
+            if ($_userName == "admin"){
+                session_start();
+                $_SESSION["username"] = $_userName;
+                header("Location: admin.php");
+
+            }else{
+                
+                session_start();
+                $_SESSION["username"] = $_userName;
+                header("Location: librarian.php");
+            }
+        }
+    
+    if ($result){
+        $conrirm = "Student Added";
+    }else{
+        $conrirm = "Fail login";
+    }
+
+}
+
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script src="logic.js"></script> ---------------->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .first_header {
+            height: 4rem;
+            width: 100%;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+        }
+
+        .first_header img {
+            height: 50px;
+            width: 50px;
+        }
+
+
+
+        .second_header {
+            height: 4rem;
+            width: 100%;
+            background-color: #F8F6F8;
+            display: flex;
+            align-items: center;
+
+
+        }
+
+
+        /* this is the div thich is hild form------------- */
+
+        .mid_middle {
+            width: 40%;
+            background-color: white;
+            margin: auto;
+            margin-top: 0px;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+
+        .mid_middle-header {
+            width: 100%;
+            height: 3rem;
+            background-color: #F8F6F8;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .mid_middle-headerH2 {
+            text-align: center;
+        }
+
+        /* input field --------------------- */
+        .form_input {
+            width: 100%;
+            margin-top: 5px;
+            height: 28px;
+
+        }
+
+        .form_div {
+            width: 90%;
+            margin: auto;
+        }
+
+        .inner_form-div {
+            padding: 5px;
+        }
+
+        .form_btn {
+            background-color: #0677F1;
+            border: 0;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .form_btn:hover {
+            background-color: #92bae6;
+        }
+
+
+        /* an = ancher------------------ */
+
+        .first_hr {
+            width: 100%;
+            height: 5px;
+            background-color: #8F7CDE;
+        }
+
+        .second_hr {
+            width: 10%;
+            height: 3px;
+            background-color: black;
+
+        }
+
+        .second_headerAn {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: black;
+        }
+
+        .second_headerAn:hover {
+            color: orangered;
+        }
+    </style>
+</head>
+
+<!-- HTML code start --------------------------------------------------------------------------------- -->
+
+<body>
+
+    <!-- This is the main div container ------------- -->
+    <div class="container">
+
+
+        <!-- first_header in which img  ------->
+        <div class="first_header">
+            <img src="images/logo.png" alt="">
+
+        </div>
+
+
+        <!-- secon header in which All ancher tag and search  is available ---------->
+        <div class="second_header">
+            <a href="#" class="second_headerAn">Home</a>
+        </div>
+
+
+        <!-- firs horizontal line after first and second header ------------>
+        <hr class="first_hr">
+
+
+
+        <h1>Login</h1>
+        <hr class="second_hr">
+
+
+        <!-- mid_middle is a center div which holds the form ------------>
+        <div class="mid_middle">
+            <div class="mid_middle-header">
+                <h2 class="mid_middle-headerH2">LOGIN</h2>
+            </div>
+
+
+            <!-- form start from here------------->
+            <div class="form_div">
+                <form action="" method="post">
+
+                    <div class="inner_form-div">
+                        <label for="">User Name</label>
+                        <input type="text" class="form_input" name="userName">
+                    </div>
+                    <div class="inner_form-div">
+                        <label for="">Password</label>
+                        <input type="password" class="form_input" name="password">
+                    </div>
+
+                    <!-- form button ----------->
+                    <div class="inner_form-div">
+                        <button class="form_btn" name="confirm">Confirm</button>
+
+                    </div>
+                    <?php echo($conrirm)?>
+                </form>
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+    <script>
+
+
+
+    </script>
+
+</body>
+
+</html>
